@@ -1,0 +1,1085 @@
+<?php 
+$selectSchool = $_SESSION["school"];
+if($selectSchool == "all"){
+  $selectSchool = 'ms';
+}  ?>
+
+<script type="text/javascript">
+
+  function ddSelect()
+  {
+    var d = document.getElementById("newSerial").value; 
+    document.getElementById("textvl").value = d;
+  } 
+
+
+</script> 
+
+<style type="text/css">
+  * {
+  box-sizing: border-box;
+}
+
+body {
+  font: 16px Arial;  
+}
+
+/*the container must be positioned relative:*/
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+ 
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+  
+ul.ks-cboxtags li label {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+ul.ks-cboxtags li label::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 12px;
+    padding: 2px 6px 2px 2px;
+    content: "\f067";
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+    content: "\f00c";
+    transform: rotate(-360deg);
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label {
+    border: 2px solid #1bdbf8;
+    background-color: #12bbd4;
+    color: #fff;
+    transition: all .2s;
+}
+
+ul.ks-cboxtags li input[type="checkbox"] {
+  display: absolute;
+}
+ul.ks-cboxtags li input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+ul.ks-cboxtags li input[type="checkbox"]:focus + label {
+  border: 2px solid #e9a1ff;
+}
+
+</style>
+<div class="content-wrapper">
+
+  <section class="content-header">
+
+    <h1>
+
+      Loaner Return
+
+    </h1>
+
+    <ol class="breadcrumb">
+
+      <li><a href="home"><i class="fa fa-dashboard"></i> Home</a></li>
+
+      <li class="active">Loaner Return</li>
+
+    </ol>
+
+  </section>
+
+  <section class="content"> 
+      <!--=============================================
+      THE FORM
+      =============================================--> 
+<div class="col-lg-5 col-xs-12">
+        
+        <div class="box box-success">
+
+          <div class="box-header with-border"></div>
+
+          <form role="form" method="post" class="saleForm">
+
+            <div class="box-body">
+                
+                <div class="box">
+                        
+<br><br>
+                    <!--=====================================
+                    =            CLC INPUT           =
+                    ======================================-->
+                  
+                    
+                    <div class="form-group">
+
+                      <div class="input-group">
+                        <br><br><br>
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <label>Please enter students email</label> 
+                        <input type="text" class="form-control" name="sUserName" id="sUserName"required >
+
+                        <input type="hidden" name="selectSchool" id="selectSchool" value="<?php echo $_SESSION["school"]; ?>">  
+
+                      </div>
+
+                    </div>
+
+ 
+
+                    <!--=====================================
+                    =            CUSTOMER INPUT           =
+                    ======================================-->
+                  
+                    <!--=====================================
+                    CODE INPUT
+                    ======================================-->
+                  
+                    
+                    <div class="form-group">
+
+                        <div class="form-group"> 
+
+                        <table class="table">
+                          
+                          <thead>
+                            
+                            <th>CB Name</th>
+                            <th>CB Loaner</th>
+
+                          </thead>
+                          <tbody>
+                            
+                            <tr>
+                              
+                              <td style="width: 50%">
+
+                                <div class="input-group">
+                                   
+                                    <select class="form-control" name="newSerial" id="newSerial" onchange="ddSelect();" required>      
+                                        
+                                    <?php  
+                                      $answer = ControllerLoaner::ctrShowCBName($selectSchool);
+                                      echo "<option value=''>Select Loaner</option>";
+                                      foreach ($answer as $key => $value) { 
+                                        if($value['status'] == 0){
+                                        echo "<option value='".$value['loaner_serial']."'>".$value['cb_name']."</option>";
+                                      }
+                                    }
+                                         
+                                   ?>
+                                 </select>
+
+                                </div>
+                              </td>
+
+                              <td style="width: 50%">
+
+                                  <div class="input-group">
+                                  
+                                  <input type="text" class="form-control" name="txtvl" id="textvl" readonly>
+ 
+                                  
+                                  <span class="input-group-addon"><i class="fa fa-key"></i></span> 
+
+                                </div>
+
+                              </td>
+
+                            </tr>
+
+                          </tbody>
+
+                        </table>
+
+
+
+                        <input type="hidden" name="cUser" id="cUser" value="<?php echo $_SESSION["name"]; ?>"> 
+                      </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                      <div class="input-group">
+
+                        <br>
+                        <span class="input-group-addon"><i class="fa fa-key"></i></span> 
+                        <label>Please enter the repaired CB serial</label>
+                        <input type="text" class="form-control" name="repairedSerial" id="repairedSerial"required>
+
+                      </div>
+                      </div>
+                    <div class="form-group">
+
+                      <div class="input-group"><br>
+                        <span class="input-group-addon"><i class="fa fa-key"></i></span> 
+                        <label>Please put in a short blurb about the condition of the loaner</label>
+                        <br>
+                        <textarea rows = "5" cols = "50" name = "description" id = "description" required></textarea>
+
+                      </div>
+
+                    </div>   
+<div class="form-group">
+                       <ul class="ks-cboxtags">
+                        <div class="col-xs-3">              
+                            <label for="checkin-reasons">Has Physical damage?</br> </label>
+                          <li><input type="checkbox" id="checkboxc" value="yes" name = "physical"><label for="checkboxc">Physical</label></li>
+                      </div>
+                    </ul>
+                  </div>
+                    
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary pull-right" >Submit Return</button>
+            </div>
+          </form>
+
+          <?php
+
+            $saveSale = new ControllerLoaner();
+            $saveSale -> ctrLoanerReturn();
+            
+          ?>
+
+        </div>
+
+      </div>
+
+<script>
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+}
+
+/*An array containing all the country names in the world:*/
+var countries = ['dantonaa0601@student.mahopac.org',
+'parisdevanea0531@student.mahopac.org',
+'barbala0928@student.mahopac.org',
+'lyncha0504@student.mahopac.org',
+'weissa0501@student.mahopac.org',
+'thomaa0401@student.mahopac.org',
+'blanca0303@student.mahopac.org',
+'halleya0303@student.mahopac.org',
+'occhiconea0521@student.mahopac.org',
+'bella0523@student.mahopac.org',
+'williamsi0606@student.mahopac.org',
+'barbalb1210@student.mahopac.org',
+'bellc1022@student.mahopac.org',
+'pounceyc0721@student.mahopac.org',
+'colasanted0801@student.mahopac.org',
+'algierid1113@student.mahopac.org',
+'campod0214@student.mahopac.org',
+'blancd0510@student.mahopac.org',
+'alvarezd0421@student.mahopac.org',
+'espositod0718@student.mahopac.org',
+'reyese0113@student.mahopac.org',
+'siolase0818@student.mahopac.org',
+'davise0512@student.mahopac.org',
+'fue0314@student.mahopac.org',
+'parisdevanee0610@student.mahopac.org',
+'buffonef0323@student.mahopac.org',
+'misiagh0609@student.mahopac.org',
+'bellh1101@student.mahopac.org',
+'gazivodai0706@student.mahopac.org',
+'blauerj1005@student.mahopac.org',
+'montuoroj0803@student.mahopac.org',
+'kellyj1201@student.mahopac.org',
+'lojanoj0701@student.mahopac.org',
+'bellj0720@student.mahopac.org',
+'spirellij0718@student.mahopac.org',
+'romanoj0312@student.mahopac.org',
+'angelonij1227@student.mahopac.org',
+'gazivodaj1017@student.mahopac.org',
+'meusek1030@student.mahopac.org',
+'murphyk0104@student.mahopac.org',
+'pounceyk0519@student.mahopac.org',
+'juradogodinezk0318@student.mahopac.org',
+'koellmerk0415@student.mahopac.org',
+'gardnerl0406@student.mahopac.org',
+'osmonajl1029@student.mahopac.org',
+'naglel1128@student.mahopac.org',
+'youngl0723@student.mahopac.org',
+'norrism0917@student.mahopac.org',
+'nappim0710@student.mahopac.org',
+'scauzillom1130@student.mahopac.org',
+'reitzenm0526@student.mahopac.org',
+'riveram0722@student.mahopac.org',
+'vaccarom0714@student.mahopac.org',
+'juradogodinezm0130@student.mahopac.org',
+'difrancescan0326@student.mahopac.org',
+'lukianovichn0319@student.mahopac.org',
+'capriglionen0804@student.mahopac.org',
+'caruson0120@student.mahopac.org',
+'misiago0118@student.mahopac.org',
+'monzono1114@student.mahopac.org',
+'williamsp0823@student.mahopac.org',
+'kearnsr0622@student.mahopac.org',
+'spirellir1004@student.mahopac.org',
+'arnoldr0127@student.mahopac.org',
+'davisr0619@student.mahopac.org',
+'kearnsr0208@student.mahopac.org',
+'murphyr1014@student.mahopac.org',
+'ofermans0904@student.mahopac.org',
+'monizs0521@student.mahopac.org',
+'barrys0707@student.mahopac.org',
+'pounceys0519@student.mahopac.org',
+'gjonajs0605@student.mahopac.org',
+'tozzis0921@student.mahopac.org',
+'mcloughlins1103@student.mahopac.org',
+'carlos0513@student.mahopac.org',
+'weisss1124@student.mahopac.org',
+'garciat1122@student.mahopac.org',
+'valentinv0608@student.mahopac.org',
+'roquela0614@student.mahopac.org',
+'gomesal0103@student.mahopac.org',
+'gomesan0103@student.mahopac.org',
+'villania0909@student.mahopac.org',
+'servedioa0218@student.mahopac.org',
+'parchenb0320@student.mahopac.org',
+'fensterc0511@student.mahopac.org',
+'capellinic0731@student.mahopac.org',
+'pikoulasc0202@student.mahopac.org',
+'sumersfordc0602@student.mahopac.org',
+'aquilinoe0317@student.mahopac.org',
+'gallog0608@student.mahopac.org',
+'angrisanig1220@student.mahopac.org',
+'cornacchioi0417@student.mahopac.org',
+'mcnallyj0926@student.mahopac.org',
+'healyj0428@student.mahopac.org',
+'capellinij0620@student.mahopac.org',
+'forrestj0410@student.mahopac.org',
+'sumersfordk0822@student.mahopac.org',
+'millank0225@student.mahopac.org',
+'roebuckk0308@student.mahopac.org',
+'carrk0424@student.mahopac.org',
+'fensterk0523@student.mahopac.org',
+'browerk0711@student.mahopac.org',
+'cuestak0618@student.mahopac.org',
+'sumersfordk0908@student.mahopac.org',
+'servediol0218@student.mahopac.org',
+'healyl0926@student.mahopac.org',
+'johnm0519@student.mahopac.org',
+'pikoulasm0131@student.mahopac.org',
+'duranm0708@student.mahopac.org',
+'aquilinomat1101@student.mahopac.org',
+'aquilinomic1101@student.mahopac.org',
+'duranm0516@student.mahopac.org',
+'hernandezm1206@student.mahopac.org',
+'sternm0929@student.mahopac.org',
+'forresto0718@student.mahopac.org',
+'gagnep0131@student.mahopac.org',
+'collinsr1010@student.mahopac.org',
+'dusovicr0328@student.mahopac.org',
+'capellinir0217@student.mahopac.org',
+'servedios0218@student.mahopac.org',
+'roquels0615@student.mahopac.org',
+'matutes0401@student.mahopac.org',
+'maldonados0205@student.mahopac.org',
+'sternt1129@student.mahopac.org',
+'levinev0823@student.mahopac.org',
+'novotnya1124@student.mahopac.org',
+'nievesa0919@student.mahopac.org',
+'gellerb0217@student.mahopac.org',
+'cohenc0617@student.mahopac.org',
+'longe0607@student.mahopac.org',
+'gangemii0416@student.mahopac.org',
+'grievej0529@student.mahopac.org',
+'gangemij0412@student.mahopac.org',
+'butironil0111@student.mahopac.org',
+'canahuijavielm0727@student.mahopac.org',
+'butironip0526@student.mahopac.org',
+'camerar0113@student.mahopac.org',
+'intorciar1206@student.mahopac.org',
+'butironis0721@student.mahopac.org',
+'egariant0922@student.mahopac.org',
+'longt0712@student.mahopac.org',
+'englanda0904@student.mahopac.org',
+'pratilloa0111@student.mahopac.org',
+'ribeirob0826@student.mahopac.org',
+'weedd1226@student.mahopac.org',
+'conellie1028@student.mahopac.org',
+'tuckerg1104@student.mahopac.org',
+'kardiasj0420@student.mahopac.org',
+'vitullij0730@student.mahopac.org',
+'conellik1028@student.mahopac.org',
+'englandk0320@student.mahopac.org',
+'rushk0712@student.mahopac.org',
+'castratarol1208@student.mahopac.org',
+'conellim0425@student.mahopac.org',
+'pejcinovicm0425@student.mahopac.org',
+'pratillon0303@student.mahopac.org',
+'kleino1112@student.mahopac.org',
+'castratarot0228@student.mahopac.org',
+'baynea1109@student.mahopac.org',
+'gellera1117@student.mahopac.org',
+'savagea1215@student.mahopac.org',
+'savinoa0729@student.mahopac.org',
+'zimmermana0620@student.mahopac.org',
+'reisa0519@student.mahopac.org',
+'pranzoa1009@student.mahopac.org',
+'vettorettia1213@student.mahopac.org',
+'zeislera1206@student.mahopac.org',
+'colontonioa0122@student.mahopac.org',
+'dicoba1120@student.mahopac.org',
+'nikocevica0218@student.mahopac.org',
+'spoelstraa0725@student.mahopac.org',
+'ziegelhofera0325@student.mahopac.org',
+'picciolia0827@student.mahopac.org',
+'degiorgioa0829@student.mahopac.org',
+'silvaa0323@student.mahopac.org',
+'maroulisa0929@student.mahopac.org',
+'calverta0503@student.mahopac.org',
+'bagena0525@student.mahopac.org',
+'ibarluceaa0412@student.mahopac.org',
+'reardona0705@student.mahopac.org',
+'bakera0628@student.mahopac.org',
+'mekeela0518@student.mahopac.org',
+'solanoa0412@student.mahopac.org',
+'matiasa0811@student.mahopac.org',
+'ortiza0228@student.mahopac.org',
+'narcissia0803@student.mahopac.org',
+'carincia0424@student.mahopac.org',
+'popea0123@student.mahopac.org',
+'carahera0719@student.mahopac.org',
+'fearona0529@student.mahopac.org',
+'martinsa0605@student.mahopac.org',
+'pennellaa0108@student.mahopac.org',
+'avilajimeneza0217@student.mahopac.org',
+'calcianoa0805@student.mahopac.org',
+'fostera0104@student.mahopac.org',
+'orsinia0321@student.mahopac.org',
+'maroulisa1114@student.mahopac.org',
+'mcphillipsa0503@student.mahopac.org',
+'rodrigueza1229@student.mahopac.org',
+'bowringb1009@student.mahopac.org',
+'nicholasb0511@student.mahopac.org',
+'savinob0106@student.mahopac.org',
+'breimanb1222@student.mahopac.org',
+'bagenb0524@student.mahopac.org',
+'freehillc1013@student.mahopac.org',
+'jeranc0828@student.mahopac.org',
+'godinc0508@student.mahopac.org',
+'wilsonc0823@student.mahopac.org',
+'ohalloranc0524@student.mahopac.org',
+'gibbonsc0609@student.mahopac.org',
+'mazzellac1202@student.mahopac.org',
+'przymylskic0605@student.mahopac.org',
+'natolik0930@student.mahopac.org',
+'gegenyc0327@student.mahopac.org',
+'navettac0612@student.mahopac.org',
+'toroc0206@student.mahopac.org',
+'balzanoc0302@student.mahopac.org',
+'pilatoc1010@student.mahopac.org',
+'ramahloc1013@student.mahopac.org',
+'velezd0624@student.mahopac.org',
+'ohallorand0929@student.mahopac.org',
+'yurchod0929@student.mahopac.org',
+'alvaradod0520@student.mahopac.org',
+'nikocevicd0326@student.mahopac.org',
+'bowend0328@student.mahopac.org',
+'zabad0612@student.mahopac.org',
+'courneyd0221@student.mahopac.org',
+'mckeed0312@student.mahopac.org',
+'mcphillipsd0809@student.mahopac.org',
+'solanorivasd0309@student.mahopac.org',
+'jacksone0916@student.mahopac.org',
+'fearone1103@student.mahopac.org',
+'carahere0223@student.mahopac.org',
+'dicobe0311@student.mahopac.org',
+'shmulewitze1113@student.mahopac.org',
+'perezolivae0802@student.mahopac.org',
+'perezbillie1206@student.mahopac.org',
+'oboylef0918@student.mahopac.org',
+'herreraf0530@student.mahopac.org',
+'maiolinif0207@student.mahopac.org',
+'felizardof0727@student.mahopac.org',
+'debiaseg0902@student.mahopac.org',
+'munozfloresg0615@student.mahopac.org',
+'scuoppog0202@student.mahopac.org',
+'nelsong0421@student.mahopac.org',
+'careyg0824@student.mahopac.org',
+'chenowethg0606@student.mahopac.org',
+'salamancag0215@student.mahopac.org',
+'mullerg0804@student.mahopac.org',
+'baxterh0928@student.mahopac.org',
+'perezolivah0118@student.mahopac.org',
+'gonzalezh0620@student.mahopac.org',
+'walshh0928@student.mahopac.org',
+'derosai0119@student.mahopac.org',
+'scuoppoi0409@student.mahopac.org',
+'dohertyj1218@student.mahopac.org',
+'maguirej0314@student.mahopac.org',
+'mendezj0515@student.mahopac.org',
+'abreuj1124@student.mahopac.org',
+'polij0325@student.mahopac.org',
+'mitchellj1220@student.mahopac.org',
+'cruzj0817@student.mahopac.org',
+'riveraj1212@student.mahopac.org',
+'maganaj1209@student.mahopac.org',
+'bowenj1103@student.mahopac.org',
+'grassiaj1123@student.mahopac.org',
+'manzarij0916@student.mahopac.org',
+'romanoj0907@student.mahopac.org',
+'camastroj0127@student.mahopac.org',
+'leonardj0209@student.mahopac.org',
+'narulaj1129@student.mahopac.org',
+'gojcajj0526@student.mahopac.org',
+'baynej1206@student.mahopac.org',
+'calcianoj0120@student.mahopac.org',
+'guminaj0209@student.mahopac.org',
+'reckj1216@student.mahopac.org',
+'okulak0402@student.mahopac.org',
+'growk0604@student.mahopac.org',
+'natolik0930@student.mahopac.org',
+'ziegelhoferk0111@student.mahopac.org',
+'sarmientok1230@student.mahopac.org',
+'klajbanovak0525@student.mahopac.org',
+'okulak0830@student.mahopac.org',
+'kennedyk0205@student.mahopac.org',
+'manteyk0928@student.mahopac.org',
+'contrerask0906@student.mahopac.org',
+'behrendtk1028@student.mahopac.org',
+'thanosk0507@student.mahopac.org',
+'baronek0723@student.mahopac.org',
+'pintok0302@student.mahopac.org',
+'dusovick0918@student.mahopac.org',
+'quackenbushk1025@student.mahopac.org',
+'varleyl1110@student.mahopac.org',
+'coxl1030@student.mahopac.org',
+'sandovall0310@student.mahopac.org',
+'vernarskyl0224@student.mahopac.org',
+'sigurjonssonl1027@student.mahopac.org',
+'cassaral0421@student.mahopac.org',
+'bowenl0613@student.mahopac.org',
+'fallmanl0902@student.mahopac.org',
+'langtryl0611@student.mahopac.org',
+'reisl1004@student.mahopac.org',
+'southleam1102@student.mahopac.org',
+'behrendtm0508@student.mahopac.org',
+'mccabem0425@student.mahopac.org',
+'mendesm0818@student.mahopac.org',
+'orsinim0422@student.mahopac.org',
+'romeom0806@student.mahopac.org',
+'quackenbushm0625@student.mahopac.org',
+'khvedelidzem0621@student.mahopac.org',
+'camastrom0107@student.mahopac.org',
+'hammerm0308@student.mahopac.org',
+'carusonem0121@student.mahopac.org',
+'beachm0914@student.mahopac.org',
+'bentivengam0427@student.mahopac.org',
+'dinizom0219@student.mahopac.org',
+'dulykm0125@student.mahopac.org',
+'hettingerm1228@student.mahopac.org',
+'magnanim0209@student.mahopac.org',
+'portanovam0315@student.mahopac.org',
+'headm0126@student.mahopac.org',
+'pintom0302@student.mahopac.org',
+'gardunom0726@student.mahopac.org',
+'jacobellism0321@student.mahopac.org',
+'maiuzzom0314@student.mahopac.org',
+'caldarellam1020@student.mahopac.org',
+'honcharikm0821@student.mahopac.org',
+'behlerm0623@student.mahopac.org',
+'kingm0430@student.mahopac.org',
+'maiuzzom1128@student.mahopac.org',
+'paolicellim1118@student.mahopac.org',
+'stepinacm0311@student.mahopac.org',
+'lazarm0608@student.mahopac.org',
+'stepinacn1125@student.mahopac.org',
+'corcionen1223@student.mahopac.org',
+'hettingern1025@student.mahopac.org',
+'brunon0825@student.mahopac.org',
+'romeon1012@student.mahopac.org',
+'portanovan0525@student.mahopac.org',
+'martinezj0810@student.mahopac.org',
+'thanosn1014@student.mahopac.org',
+'pentao0505@student.mahopac.org',
+'schoeno0219@student.mahopac.org',
+'vanorsdaleo0207@student.mahopac.org',
+'schoenp1213@student.mahopac.org',
+'southleap0519@student.mahopac.org',
+'gibbonsp0608@student.mahopac.org',
+'zoehfeldq0706@student.mahopac.org',
+'castaldor0912@student.mahopac.org',
+'oboyler0808@student.mahopac.org',
+'jeranr0513@student.mahopac.org',
+'zachr0901@student.mahopac.org',
+'hirschmuglr0630@student.mahopac.org',
+'padillar0416@student.mahopac.org',
+'dilapis0901@student.mahopac.org',
+'monizs0521@student.mahopac.org',
+'przymylskis0125@student.mahopac.org',
+'dinardisar0613@student.mahopac.org',
+'behrendts0730@student.mahopac.org',
+'kellys0617@student.mahopac.org',
+'santiagos1022@student.mahopac.org',
+'carusones0213@student.mahopac.org',
+'nikocevics0919@student.mahopac.org',
+'perillos0221@student.mahopac.org',
+'dinardisof0613@student.mahopac.org',
+'camastros0127@student.mahopac.org',
+'meyers1118@student.mahopac.org',
+'mcdermotts0823@student.mahopac.org',
+'changt0715@student.mahopac.org',
+'vettorettit0529@student.mahopac.org',
+'jacobellist0919@student.mahopac.org',
+'perricellit0820@student.mahopac.org',
+'kennedyt0327@student.mahopac.org',
+'cassonet1224@student.mahopac.org',
+'gallaghert1231@student.mahopac.org',
+'godinezmendezv0912@student.mahopac.org',
+'vernarskyv1031@student.mahopac.org',
+'riverav0121@student.mahopac.org',
+'stojicv0908@student.mahopac.org',
+'roselliv0512@student.mahopac.org',
+'vellaz0907@student.mahopac.org',
+'langtryz0411@student.mahopac.org',
+'mazzellac1202@student.mahopac.org',
+'zatkovicha0224@student.mahopac.org',
+'shuraka1215@student.mahopac.org',
+'deyoa0603@student.mahopac.org',
+'moschettaa0302@student.mahopac.org',
+'caiolaa1101@student.mahopac.org',
+'martineza0607@student.mahopac.org',
+'contractora0303@student.mahopac.org',
+'colona0427@student.mahopac.org',
+'faicanb1213@student.mahopac.org',
+'chaflab1216@student.mahopac.org',
+'murphyc1202@student.mahopac.org',
+'kurniawanc0520@student.mahopac.org',
+'diesmanc0619@student.mahopac.org',
+'zavalad0217@student.mahopac.org',
+'marangiellod1214@student.mahopac.org',
+'valentid1220@student.mahopac.org',
+'irizarryd1210@student.mahopac.org',
+'cotroneoe1208@student.mahopac.org',
+'levinere0302@student.mahopac.org',
+'wohle0712@student.mahopac.org',
+'vigluccig0204@student.mahopac.org',
+'bernardog0301@student.mahopac.org',
+'gristinag1028@student.mahopac.org',
+'woodsidej0817@student.mahopac.org',
+'sheaj0709@student.mahopac.org',
+'kurniawanj1218@student.mahopac.org',
+'palaguachij0303@student.mahopac.org',
+'ioimoj0423@student.mahopac.org',
+'martinezj0810@student.mahopac.org',
+'paulmejiaj1122@student.mahopac.org',
+'levinerj0220@student.mahopac.org',
+'zatkovichj1003@student.mahopac.org',
+'pontillok0622@student.mahopac.org',
+'garciapenak0822@student.mahopac.org',
+'peraltak0615@student.mahopac.org',
+'panzal1213@student.mahopac.org',
+'jacksonl0510@student.mahopac.org',
+'palaguachil1017@student.mahopac.org',
+'ioimol0726@student.mahopac.org',
+'beanyl0518@student.mahopac.org',
+'bankerm0503@student.mahopac.org',
+'goodrowm1112@student.mahopac.org',
+'kirkmanm0314@student.mahopac.org',
+'cuomom0220@student.mahopac.org',
+'canafem0830@student.mahopac.org',
+'smithm0130@student.mahopac.org',
+'contractora0303@student.mahopac.org',
+'mascolln1120@student.mahopac.org',
+'valentin1220@student.mahopac.org',
+'urenapenan0909@student.mahopac.org',
+'avyp0819@student.mahopac.org',
+'massiminop1224@student.mahopac.org',
+'canafer0422@student.mahopac.org',
+'woodsider0817@student.mahopac.org',
+'scheedels0104@student.mahopac.org',
+'mascolls0420@student.mahopac.org',
+'baront0714@student.mahopac.org',
+'kishv0124@student.mahopac.org',
+'scanlonw0215@student.mahopac.org',
+'levinerz0302@student.mahopac.org',
+'vieiraa0609@student.mahopac.org',
+'artusoa0820@student.mahopac.org',
+'alvarezb1018@student.mahopac.org',
+'lundyb0422@student.mahopac.org',
+'artusoa0820@student.mahopac.org',
+'burkeb0119@student.mahopac.org',
+'kearnsc0222@student.mahopac.org',
+'thompsonc1028@student.mahopac.org',
+'mckeec1028@student.mahopac.org',
+'mckeed0120@student.mahopac.org',
+'leoned0627@student.mahopac.org',
+'burked1216@student.mahopac.org',
+'grishajd1005@student.mahopac.org',
+'mazure0308@student.mahopac.org',
+'desmaraisg1214@student.mahopac.org',
+'kavalieratosg0508@student.mahopac.org',
+'thompsonj0329@student.mahopac.org',
+'freemanj0407@student.mahopac.org',
+'bednarczykj0108@student.mahopac.org',
+'dannolfoj1215@student.mahopac.org',
+'taliaj0125@student.mahopac.org',
+'jimenezj0521@student.mahopac.org',
+'batistak1005@student.mahopac.org',
+'conlank0324@student.mahopac.org',
+'conlanl1111@student.mahopac.org',
+'sullivanm0815@student.mahopac.org',
+'artusom1229@student.mahopac.org',
+'damorem1208@student.mahopac.org',
+'keenm0608@student.mahopac.org',
+'otengm0121@student.mahopac.org',
+'mazurm1213@student.mahopac.org',
+'holmesm0208@student.mahopac.org',
+'garufin0526@student.mahopac.org',
+'guedesn0524@student.mahopac.org',
+'harriganp0323@student.mahopac.org',
+'grishajp0804@student.mahopac.org',
+'winesp0316@student.mahopac.org',
+'garufis0516@student.mahopac.org',
+'kavalieratost0410@student.mahopac.org',
+'leonet0329@student.mahopac.org',
+'dannolfov0626@student.mahopac.org',
+'melyx0125@student.mahopac.org',
+'amayay0119@student.mahopac.org',
+'apontea0222@student.mahopac.org',
+'leguillowa0207@student.mahopac.org',
+'longhitanoa0423@student.mahopac.org',
+'khodelia0121@student.mahopac.org',
+'ljuljduraja0801@student.mahopac.org',
+'allegrettoa0319@student.mahopac.org',
+'aivaziansa1213@student.mahopac.org',
+'devlinb0611@student.mahopac.org',
+'nunezb0502@student.mahopac.org',
+'mockelc1201@student.mahopac.org',
+'cappasc0626@student.mahopac.org',
+'forgerc0316@student.mahopac.org',
+'ljuljdurajc0310@student.mahopac.org',
+'medranoc0425@student.mahopac.org',
+'mockelc0624@student.mahopac.org',
+'fischettic0109@student.mahopac.org',
+'loweryc0208@student.mahopac.org',
+'vieirac0601@student.mahopac.org',
+'bosiod0906@student.mahopac.org',
+'metaliad1218@student.mahopac.org',
+'velezd1106@student.mahopac.org',
+'metaliae0811@student.mahopac.org',
+'suriele1226@student.mahopac.org',
+'prunete0430@student.mahopac.org',
+'sigurjonssone1103@student.mahopac.org',
+'bromberge0826@student.mahopac.org',
+'roquelg0614@student.mahopac.org',
+'geigerg0805@student.mahopac.org',
+'reog0802@student.mahopac.org',
+'ferranteg0426@student.mahopac.org',
+'ferranteg0612@student.mahopac.org',
+'careyg1118@student.mahopac.org',
+'genovesei0807@student.mahopac.org',
+'vallei0124@student.mahopac.org',
+'gagnoni1101@student.mahopac.org',
+'genarioj0619@student.mahopac.org',
+'patippej0428@student.mahopac.org',
+'pellegrinoj1008@student.mahopac.org',
+'ghanyj0825@student.mahopac.org',
+'dotyj0325@student.mahopac.org',
+'tedescoj0827@student.mahopac.org',
+'vitelloj0720@student.mahopac.org',
+'adamsk0713@student.mahopac.org',
+'mccarthyk0728@student.mahopac.org',
+'milligank0313@student.mahopac.org',
+'stojanovskik0321@student.mahopac.org',
+'clethenl1228@student.mahopac.org',
+'esquivell0226@student.mahopac.org',
+'tettom0320@student.mahopac.org',
+'weltonm1115@student.mahopac.org',
+'lexm1101@student.mahopac.org',
+'zelayam0925@student.mahopac.org',
+'mcmahonm0627@student.mahopac.org',
+'proninm1221@student.mahopac.org',
+'camuton1203@student.mahopac.org',
+'caramihain0411@student.mahopac.org',
+'bondern0723@student.mahopac.org',
+'bonderp0428@student.mahopac.org',
+'yungap0112@student.mahopac.org',
+'loweryp1223@student.mahopac.org',
+'betancourtq0420@student.mahopac.org',
+'dimeglior0311@student.mahopac.org',
+'ahlerr0123@student.mahopac.org',
+'grabeklisr1208@student.mahopac.org',
+'hirschr1117@student.mahopac.org',
+'itzlas1210@student.mahopac.org',
+'vincis0606@student.mahopac.org',
+'gazicks0527@student.mahopac.org',
+'dotys0510@student.mahopac.org',
+'milligans1109@student.mahopac.org',
+'budermant0622@student.mahopac.org',
+'barict1024@student.mahopac.org',
+'castrovincit0905@student.mahopac.org',
+'hechanovat0323@student.mahopac.org',
+'stojanovskiv0412@student.mahopac.org',
+'lopesw0418@student.mahopac.org',
+'suriely0714@student.mahopac.org',
+'sozasotoa0709@student.mahopac.org',
+'mcgregora0323@student.mahopac.org',
+'spasica1201@student.mahopac.org',
+'ferrisa0429@student.mahopac.org',
+'brunettia0301@student.mahopac.org',
+'russoa1111@student.mahopac.org',
+'spasica1121@student.mahopac.org',
+'russoa1012@student.mahopac.org',
+'alongia0514@student.mahopac.org',
+'dicerboa0921@student.mahopac.org',
+'reckb1216@student.mahopac.org',
+'clarkeb0125@student.mahopac.org',
+'jubakb0614@student.mahopac.org',
+'brandstetterc0106@student.mahopac.org',
+'gainec0505@student.mahopac.org',
+'longc1215@student.mahopac.org',
+'dicerboc0921@student.mahopac.org',
+'brandstetterc0223@student.mahopac.org',
+'dagninoc0205@student.mahopac.org',
+'rositanid0919@student.mahopac.org',
+'dellicollid0523@student.mahopac.org',
+'tybergd0819@student.mahopac.org',
+'rodasnaulae0911@student.mahopac.org',
+'harneye0718@student.mahopac.org',
+'prosciablakee0825@student.mahopac.org',
+'coppf1102@student.mahopac.org',
+'mazzeif0317@student.mahopac.org',
+'riccif0621@student.mahopac.org',
+'mirabileg0131@student.mahopac.org',
+'harneyh0701@student.mahopac.org',
+'rodriguezh1124@student.mahopac.org',
+'gilln0613@student.mahopac.org',
+'ibrahimj1127@student.mahopac.org',
+'mirabilej0126@student.mahopac.org',
+'sorrentinoj0201@student.mahopac.org',
+'grundmanj0816@student.mahopac.org',
+'stirpej0613@student.mahopac.org',
+'zambardinoj0117@student.mahopac.org',
+'weisblattj0313@student.mahopac.org',
+'sicaj0729@student.mahopac.org',
+'ansbroj0328@student.mahopac.org',
+'wattsk0622@student.mahopac.org',
+'reckk0920@student.mahopac.org',
+'mowerk1013@student.mahopac.org',
+'ballyl0902@student.mahopac.org',
+'coppl0408@student.mahopac.org',
+'ibrahiml0220@student.mahopac.org',
+'sical0722@student.mahopac.org',
+'sorrentinom0615@student.mahopac.org',
+'rettbergm0917@student.mahopac.org',
+'rossnern0924@student.mahopac.org',
+'sican0127@student.mahopac.org',
+'tardion0320@student.mahopac.org',
+'gillj0212@student.mahopac.org',
+'prosciablakeo0428@student.mahopac.org',
+'stirpep0311@student.mahopac.org',
+'ballyq1205@student.mahopac.org',
+'hughesr0326@student.mahopac.org',
+'tybergr0819@student.mahopac.org',
+'mcgregors1219@student.mahopac.org',
+'bilinskis1112@student.mahopac.org',
+'palmerinis0322@student.mahopac.org',
+'jubaks0914@student.mahopac.org',
+'martinezs0226@student.mahopac.org',
+'hughess0407@student.mahopac.org',
+'mrijajt1103@student.mahopac.org',
+'bergersonb0909@student.mahopac.org',
+'criscic0405@student.mahopac.org',
+'wendlerc0111@student.mahopac.org',
+'travisc0617@student.mahopac.org',
+'marksd0922@student.mahopac.org',
+'economicod1206@student.mahopac.org',
+'kotashd0520@student.mahopac.org',
+'criscie0614@student.mahopac.org',
+'bergersone0321@student.mahopac.org',
+'wendlere1103@student.mahopac.org',
+'fragosoh1227@student.mahopac.org',
+'levitzk0927@student.mahopac.org',
+'navattal0223@student.mahopac.org',
+'economicol0215@student.mahopac.org',
+'lucel0601@student.mahopac.org',
+'leel0128@student.mahopac.org',
+'calverta0503@student.mahopac.org',
+'cariellon0407@student.mahopac.org',
+'carincin0802@student.mahopac.org',
+'marksn0510@student.mahopac.org',
+'wongn1219@student.mahopac.org',
+'navattar0223@student.mahopac.org',
+'kaylers1225@student.mahopac.org',
+'markst0625@student.mahopac.org',
+'bhandarit0721@student.mahopac.org',
+'solanov0926@student.mahopac.org',
+'lopezsalguy0121@student.mahopac.org',
+'riveraa0131@student.mahopac.org',
+'zeilera0119@student.mahopac.org',
+'riguzzia1113@student.mahopac.org',
+'finerc1103@student.mahopac.org',
+'deciccod0817@student.mahopac.org',
+'riguzzie0418@student.mahopac.org',
+'diasg0203@student.mahopac.org',
+'franzeg0607@student.mahopac.org',
+'masciarellig1128@student.mahopac.org',
+'gustinh0127@student.mahopac.org',
+'romeri0430@student.mahopac.org',
+'diasj0708@student.mahopac.org',
+'walpolej0422@student.mahopac.org',
+'romerj0226@student.mahopac.org',
+'lazaroromeroj0129@student.mahopac.org',
+'shamesj0717@student.mahopac.org',
+'woloszynj0301@student.mahopac.org',
+'deciccok0606@student.mahopac.org',
+'finerk0524@student.mahopac.org',
+'bermeok0513@student.mahopac.org',
+'cabrerak1010@student.mahopac.org',
+'giulianil0802@student.mahopac.org',
+'heyerm0819@student.mahopac.org',
+'duganm0615@student.mahopac.org',
+'masciarellin0807@student.mahopac.org',
+'cafaron1215@student.mahopac.org',
+'tanio0227@student.mahopac.org',
+'zeilerp0614@student.mahopac.org',
+'cassidyp1103@student.mahopac.org',
+'wechslerp0516@student.mahopac.org',
+
+       
+            </div>
+
+          </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+ 

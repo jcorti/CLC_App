@@ -1,0 +1,78 @@
+<?php
+
+error_reporting(0);
+$school = $_SESSION["school"];
+if($school == "all"){
+  $school = 'ms'; 
+} 
+  $answerTwo = ControllerLoaner::ctrNumberOfcallsProblem($school,'cortij'); 
+ ?>
+<!--=====================================
+Sellers
+======================================-->
+
+<div class="box box-success">
+	
+	<div class="box-header with-border">
+    
+    	<h3 class="box-title">Most Calls</h3>
+  
+  	</div>
+
+  	      <div class="box-body">
+
+        <table class="table table-bordered table-striped dt-responsive tables" width="100%">
+       
+          <thead>
+           
+           <tr>
+             
+             <th style="width:10px">#</th>
+             <th>Student</th>
+             <th>loaner</th> 
+ 
+                                                                                                                      
+           </tr> 
+
+          </thead>
+
+          <tbody>
+
+          <?php
+
+            if(isset($_GET["initialDate"])){
+
+              $initialDate = $_GET["initialDate"];
+              $finalDate = $_GET["finalDate"];
+
+            }else{
+
+              $initialDate = null;
+              $finalDate = null;
+
+            }
+
+            $answer = ControllerLoaner::ctrLoanerDatesRange($initialDate, $finalDate);
+
+            foreach ($answer as $key => $value) {
+           if(
+
+            echo '
+                <tr>
+                  <td>'.($key+1).'</td>
+                  <td>'.$value["s_user"].'</td>
+                  <td>'.$value["loaner_serial"].'</td> 
+                </tr>'; 
+            }
+
+        ?> 
+          </tbody>
+
+        </table> 
+      </div>
+    
+    </div>
+
+  </section>
+
+</div>
